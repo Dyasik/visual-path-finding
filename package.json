@@ -1,0 +1,35 @@
+{
+  "name": "visual-path-finding",
+  "version": "0.0.1",
+  "description": "Visually presented path finding algorithms.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dyasik/visual-path-finding.git"
+  },
+  "keywords": [
+    "pathfinding",
+    "algorithm",
+    "react",
+    "js"
+  ],
+  "author": "Denis Seletkov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dyasik/visual-path-finding/issues"
+  },
+  "homepage": "https://github.com/Dyasik/visual-path-finding#readme",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "webpack": "^3.5.5"
+  }
+}
