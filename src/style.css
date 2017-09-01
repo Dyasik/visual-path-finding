@@ -1,0 +1,88 @@
+body {
+    background-color: gray;
+}
+
+.main {
+    text-align: center;
+}
+
+.map {
+    display: inline-block;
+    box-shadow: 0 0 10px 1px black;
+    margin-bottom: 20px;
+}
+
+.tile {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid;
+    box-sizing: border-box;
+    margin: 0 -1px -5px 0;
+}
+
+.tile.empty {
+    background-color: lightgray;
+}
+
+.tile.obstacle {
+    background-color: slategray;
+}
+
+.tile.start {
+    background-color: lawngreen;
+}
+
+.tile.target {
+    background-color: orangered;
+}
+
+.tile.hover-obstacle {
+    background-color: slategray !important;
+    box-shadow: 0 0 5px 1px slategray;
+}
+
+.tile.hover-start {
+    background-color: lawngreen !important;
+    box-shadow: 0 0 5px 1px lawngreen;
+}
+
+.tile.hover-target {
+    background-color: orangered !important;
+    box-shadow: 0 0 5px 1px orangered;
+}
+
+.legend {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.legend-item {
+    position: relative;
+    width: 150px;
+    border: 1px solid;
+    cursor: pointer;
+    padding: 2px 0;
+    box-sizing: border-box;
+    font: 16px monospace;
+}
+
+.legend-item:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.legend-item:hover {
+    filter: invert(100%);
+}
+
+.legend-item .tile {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin: 0;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
