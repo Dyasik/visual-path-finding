@@ -40,16 +40,19 @@ body {
 .tile.hover-obstacle {
     background-color: slategray !important;
     box-shadow: 0 0 5px 1px slategray;
+    filter: brightness(85%);
 }
 
 .tile.hover-start {
     background-color: lawngreen !important;
     box-shadow: 0 0 5px 1px lawngreen;
+    filter: brightness(85%);
 }
 
 .tile.hover-target {
     background-color: orangered !important;
     box-shadow: 0 0 5px 1px orangered;
+    filter: brightness(85%);
 }
 
 .legend {
