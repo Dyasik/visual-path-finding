@@ -14,3 +14,4 @@ export const LEGEND_ITEM_CLASS = 'legend-item';
 export const HOVER_OBSTACLE_CLASS = 'hover-obstacle';
 export const HOVER_START_CLASS = 'hover-start';
 export const HOVER_TARGET_CLASS = 'hover-target';
+export const WAYPOINT_CLASS = 'waypoint';

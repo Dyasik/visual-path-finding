@@ -37,6 +37,10 @@ body {
     background-color: orangered;
 }
 
+.tile.waypoint {
+    background-color: royalblue;
+}
+
 .tile.hover-obstacle {
     background-color: slategray !important;
     box-shadow: 0 0 5px 1px slategray;

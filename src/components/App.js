@@ -1,8 +1,9 @@
 import React from 'react';
 import Tile from './Tile';
-import * as Utils from "../utils";
+import * as Const from "../utils/constants";
+import { aStar } from '../utils/algorithms';
 
-const MAP = {
+const MAP_CONFIG = {
     WIDTH:      10,
     HEIGHT:     20,
 };
@@ -14,13 +15,14 @@ export default class App extends React.Component {
         this.handleMouseEnter = this.handleMouseEnter.bind(this);
         this.handleMouseLeave = this.handleMouseLeave.bind(this);
         this.handleTileClick = this.handleTileClick.bind(this);
+        this.run = this.run.bind(this);
 
         let map = [];
-        for (let i = 0; i < MAP.HEIGHT; i++) {
+        for (let i = 0; i < MAP_CONFIG.HEIGHT; i++) {
             let row = [];
-            for (let j = 0; j < MAP.WIDTH; j++) {
+            for (let j = 0; j < MAP_CONFIG.WIDTH; j++) {
                 row.push({
-                    type: Utils.TILE_TYPE.EMPTY,
+                    type: Const.TILE_TYPE.EMPTY,
                 });
             }
             map.push(row);
@@ -31,7 +33,7 @@ export default class App extends React.Component {
 
         this.state = {
             map,
-            mode: Utils.TILE_TYPE.OBSTACLE,
+            mode: Const.TILE_TYPE.OBSTACLE,
             running: false,
         };
     }
@@ -43,11 +45,11 @@ export default class App extends React.Component {
     }
 
     handleMouseEnter(event) {
-        event.target.classList.add(Utils[`HOVER_${this.state.mode}_CLASS`]);
+        event.target.classList.add(Const[`HOVER_${this.state.mode}_CLASS`]);
     }
 
     handleMouseLeave(event) {
-        event.target.classList.remove(Utils[`HOVER_${this.state.mode}_CLASS`]);
+        event.target.classList.remove(Const[`HOVER_${this.state.mode}_CLASS`]);
     }
 
     handleTileClick(event) {
@@ -62,10 +64,10 @@ export default class App extends React.Component {
         const map = this.state.map;
 
         switch (target.type) {
-            case Utils.TILE_TYPE.START:
+            case Const.TILE_TYPE.START:
                 this.start = [];
                 break;
-            case Utils.TILE_TYPE.TARGET:
+            case Const.TILE_TYPE.TARGET:
                 this.target = [];
                 break;
             default:
@@ -73,15 +75,15 @@ export default class App extends React.Component {
         }
 
         switch (this.state.mode) {
-            case Utils.TILE_TYPE.START:
+            case Const.TILE_TYPE.START:
                 if (this.start.length) {
-                    map[this.start[0]][this.start[1]].type = Utils.TILE_TYPE.EMPTY;
+                    map[this.start[0]][this.start[1]].type = Const.TILE_TYPE.EMPTY;
                 }
                 this.start = [row, col];
                 break;
-            case Utils.TILE_TYPE.TARGET:
+            case Const.TILE_TYPE.TARGET:
                 if (this.target.length) {
-                    map[this.target[0]][this.target[1]].type = Utils.TILE_TYPE.EMPTY;
+                    map[this.target[0]][this.target[1]].type = Const.TILE_TYPE.EMPTY;
                 }
                 this.target = [row, col];
                 break;
@@ -95,9 +97,40 @@ export default class App extends React.Component {
         });
     }
 
+    run() {
+        if (!this.start.length) {
+            alert('You should place the start point');
+            return;
+        }
+
+        if (!this.target.length) {
+            alert('You should place the target point');
+            return;
+        }
+
+        const result = aStar(this.start.join(), this.target.join(), this.state.map);
+
+        if (result) {
+            const map = this.state.map;
+            result.forEach((node, i) => {
+                if (!i || i === result.length - 1) {
+                    return;
+                }
+                const [row, col] = node.split(',');
+                map[row][col].type = Const.WAYPOINT_CLASS;
+            });
+            this.setState({
+                map,
+            });
+        } else {
+            alert('No path found');
+        }
+
+    }
+
     renderRow(row) {
         let tiles = [];
-        for (let i = 0; i < MAP.WIDTH; i++) {
+        for (let i = 0; i < MAP_CONFIG.WIDTH; i++) {
             tiles.push(<Tile type={this.state.map[row][i].type}
                              key={row + ',' + i}
                              data-row={row}
@@ -114,36 +147,36 @@ export default class App extends React.Component {
 
     renderField() {
         let rows = [];
-        for (let i = 0; i < MAP.HEIGHT; i++) {
+        for (let i = 0; i < MAP_CONFIG.HEIGHT; i++) {
             rows.push(this.renderRow(i));
         }
-        return (<div className={Utils.MAP_CLASS}>
+        return (<div className={Const.MAP_CLASS}>
             {rows}
         </div>);
     }
 
     renderLegend() {
-        return (<div className={Utils.LEGEND_CLASS}>
-            <div className={Utils.LEGEND_ITEM_CLASS} onClick={this.setMode.bind(this, Utils.TILE_TYPE.START)}>
-                <Tile type={Utils.TILE_TYPE.START}/>
+        return (<div className={Const.LEGEND_CLASS}>
+            <div className={Const.LEGEND_ITEM_CLASS} onClick={this.setMode.bind(this, Const.TILE_TYPE.START)}>
+                <Tile type={Const.TILE_TYPE.START}/>
                 START
             </div>
-            <div className={Utils.LEGEND_ITEM_CLASS} onClick={this.setMode.bind(this, Utils.TILE_TYPE.TARGET)}>
-                <Tile type={Utils.TILE_TYPE.TARGET}/>
+            <div className={Const.LEGEND_ITEM_CLASS} onClick={this.setMode.bind(this, Const.TILE_TYPE.TARGET)}>
+                <Tile type={Const.TILE_TYPE.TARGET}/>
                 TARGET
             </div>
-            <div className={Utils.LEGEND_ITEM_CLASS} onClick={this.setMode.bind(this, Utils.TILE_TYPE.OBSTACLE)}>
-                <Tile type={Utils.TILE_TYPE.OBSTACLE}/>
+            <div className={Const.LEGEND_ITEM_CLASS} onClick={this.setMode.bind(this, Const.TILE_TYPE.OBSTACLE)}>
+                <Tile type={Const.TILE_TYPE.OBSTACLE}/>
                 OBSTACLE
             </div>
-            <div className={Utils.LEGEND_ITEM_CLASS} onClick={null}>
+            <div className={Const.LEGEND_ITEM_CLASS} onClick={this.run}>
                 RUN
             </div>
         </div>);
     }
 
     render() {
-        return <div className={Utils.MAIN_CLASS}>
+        return <div className={Const.MAIN_CLASS}>
             {this.renderField()}
             {this.renderLegend()}
         </div>;

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TILE_TYPE, TILE_CLASS } from '../utils';
+import { TILE_TYPE, TILE_CLASS } from '../utils/constants';
 
 export default class Tile extends React.Component {
     constructor() {
