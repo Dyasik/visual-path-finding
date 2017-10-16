@@ -16,7 +16,7 @@ function dist (x1, y1, x2, y2) {
 
 /**
  * Finds path on @map between @start and @goal.</br>
- * The @map is an <tt>Array</tt> of <tt>Array</tt>s of <tt>Object</tt>s with one property "TYPE".</br>
+ * The @map is an <tt>Array</tt> of <tt>Array</tt>s of <tt>Object</tt>s with one property "type".</br>
  * The @start and @goal arguments contain the row and column number of the corresponding cells on @map,
  * split by a comma (",").</br>
  * If @setState is provided, it's used as a callback function, which is called with the up-to-time @map every
