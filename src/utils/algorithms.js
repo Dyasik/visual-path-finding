@@ -52,7 +52,9 @@ export function aStar (start, goal, map, setState) {
     fScore[start] = dist(...start.split(','), ...goal.split(','));
 
     while (openSet.elements.length) {
-        setState(openSet, closedSet);
+        if (typeof setState === 'function') {
+            setState(openSet, closedSet);
+        }
         let current = openSet.elements[0];
         let minFScore = fScore[current];
         openSet.elements.forEach((node) => {
